@@ -6,7 +6,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 function SignupPage() {
   const [nickname, setNickname] = useState('');
-  const [token, setToken] = useState('');
   const [error, setError] = useState(null);
   const navigate = useNavigate(); // history 객체를 얻습니다.
 
@@ -19,7 +18,7 @@ function SignupPage() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ nickname: nickname, token: token }),
+        body: JSON.stringify({ nickname: nickname }),
       });
 
       if (!response.ok) {
@@ -46,18 +45,12 @@ function SignupPage() {
     <Container className="mt-5">
       <Row>
         <Col md={{ span: 6, offset: 3 }}>
-          <h2 className="text-center mb-4">SOLGIT 시작하기</h2>
+          <h2 className="text-center mb-4">⚡️ SOLGIT 확인하기 ⚡️</h2>
           <Form onSubmit={handleSignup}>
             <Form.Group controlId="text" className="mb-3">
               <Form.Label>Github 아이디</Form.Label>
               <Form.Control type="nickname" placeholder="Enter Github ID" value={nickname} onChange={(e) => setNickname(e.target.value)} />
             </Form.Group>
-
-            <Form.Group controlId="formBasicPassword" className="mb-3">
-              <Form.Label>Github Token</Form.Label>
-              <Form.Control type="token" placeholder="Enter Token" value={token} onChange={(e) => setToken(e.target.value)} />
-            </Form.Group>
-
             <Button variant="primary" type="submit" className="w-100">
               등록하기
             </Button>

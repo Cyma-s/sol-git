@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, ListGroup, ListGroupItem, Alert, Spinner } from 'react-bootstrap';
+import { Container, Row, Col, Alert, Spinner } from 'react-bootstrap';
 import config from './config';
+import TotalCard from './CardComponent';
+import CommitCard from './CommitCardComponent';
+import IssueCard from './IssueCardComponent';
+import PRCard from './PRCard';
 
 function StatisticsPage() {
     const [stats, setStats] = useState({ commitCount: 0, issueCount: 0, pullRequestCount: 0 });
@@ -18,9 +22,10 @@ function StatisticsPage() {
 
                 // 상태를 업데이트합니다.
                 setStats({
-                    commitCount: data.commitCount, // 서버로부터 받아온 커밋 카운트
-                    issueCount: data.issueCount, // 서버로부터 받아온 이슈 카운트
-                    pullRequestCount: data.pullRequestCount, // 서버로부터 받아온 풀 리퀘스트 카운트
+                    total: data.total,
+                    commit: data.commit, // 서버로부터 받아온 커밋 카운트
+                    issue: data.issue, // 서버로부터 받아온 이슈 카운트
+                    pullRequest: data.pullRequest, // 서버로부터 받아온 풀 리퀘스트 카운트
                 });
             } catch (error) {
                 setError(error);
@@ -53,16 +58,19 @@ function StatisticsPage() {
 
     return (
         <Container className="my-5">
+            <h1 class="display-3" style={{textAlign: 'center'}} className='mb-5'><strong>오늘의 솔깃</strong></h1>
+            <Row className="center mb-3 justify-content-center align-items-center d-flex">
+            <TotalCard headerColor='#fff' bodyColor='#832' title='오늘 총평' text={stats.total} />
+            </Row>
             <Row className="justify-content-center">
-                <Col lg={6} md={8}>
-                    <Card>
-                        <Card.Header as="h5">Statistics</Card.Header>
-                        <ListGroup className="list-group-flush">
-                            <ListGroupItem>Commit Count: {stats.commitCount}</ListGroupItem>
-                            <ListGroupItem>Issue Count: {stats.issueCount}</ListGroupItem>
-                            <ListGroupItem>Pull Request Count: {stats.pullRequestCount}</ListGroupItem>
-                        </ListGroup>
-                    </Card>
+                <Col className="mb-4">
+                    <CommitCard headerColor='#fff' bodyColor='#832' title='Commits' text={stats.commit} />
+                </Col>
+                <Col className="mb-4">
+                    <IssueCard headerColor='#fff' bodyColor='#832' title='Issues' text={stats.issue} />
+                </Col>
+                <Col >
+                    <PRCard headerColor='#fff' bodyColor='#832' title='Pull Requests' text={stats.pullRequest} />
                 </Col>
             </Row>
         </Container>

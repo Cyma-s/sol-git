@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import wiki.vero.solgit.application.dto.GithubEventResponse;
 import wiki.vero.solgit.application.dto.StatisticsResponse;
+import wiki.vero.solgit.domain.GithubEvent;
+import wiki.vero.solgit.domain.GithubEventType;
 import wiki.vero.solgit.domain.Member;
 import wiki.vero.solgit.domain.repository.MemberRepository;
 
@@ -27,12 +29,12 @@ public class StatisticsService {
     public StatisticsResponse showStatistics(Long memberId) {
         final Member member = memberRepository.findById(memberId)
             .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저입니다."));
-        final List<GithubEventResponse> responses = getEventsByRepository(member);
+        final List<GithubEvent> githubEvents = getEventsByRepository(member);
 
-        return StatisticsResponse.of(responses);
+        return StatisticsResponse.of(githubEvents);
     }
 
-    private List<GithubEventResponse> getEventsByRepository(Member member) {
+    private List<GithubEvent> getEventsByRepository(Member member) {
         int page = 1;
         List<GithubEventResponse> responses = getGithubEventsByPage(member, page);
         final List<GithubEventResponse> result = new ArrayList<>(responses);
@@ -42,9 +44,14 @@ public class StatisticsService {
             result.addAll(responses);
         }
 
-        return result.stream()
+        final List<GithubEventResponse> filteredResponses = result.stream()
             .filter(localDateTime -> ZonedDateTime.parse(localDateTime.createdAt(), DateTimeFormatter.ISO_DATE_TIME)
                 .toLocalDate().isEqual(LocalDateTime.now().toLocalDate()))
+            .toList();
+
+        return filteredResponses.stream()
+            .map(GithubEvent::from)
+            .filter(githubEvent -> githubEvent.getType() == GithubEventType.ELSE)
             .toList();
     }
 

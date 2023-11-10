@@ -1,24 +1,24 @@
 package wiki.vero.solgit.domain;
 
-import java.util.Arrays;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import wiki.vero.solgit.application.dto.GithubEventResponse;
 
-public enum GithubEvent {
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
+public class GithubEvent {
 
-    ISSUE("IssuesEvent"),
-    PULL_REQUEST("PullRequestEvent"),
-    COMMIT("PushEvent")
-    ;
+    private String id;
+    private GithubEventType type;
+    private GithubRepository repository;
 
-    private final String event;
-
-    GithubEvent(final String event) {
-        this.event = event;
-    }
-
-    public static GithubEvent from(final String event) {
-        return Arrays.stream(values())
-                .filter(githubEvent -> githubEvent.event.equals(event))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Not found event: " + event));
+    public static GithubEvent from(final GithubEventResponse githubEventResponse) {
+        return new GithubEvent(
+            githubEventResponse.id(),
+            GithubEventType.from(githubEventResponse.type()),
+            GithubRepository.from(githubEventResponse.repo().name(), githubEventResponse.repo().url()));
     }
 }

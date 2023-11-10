@@ -1,0 +1,30 @@
+
+@font-face {
+    font-family: 'Pretendard';
+    src: url('./font/PretendardVariable.ttf') format('truetype');
+  }
+  
+body {
+  font-family: 'Pretendard', sans-serif;
+  background-color: black;
+  color: white;
+  margin: 0; /* 기본 마진 제거 */
+  padding: 0; /* 기본 패딩 제거 */
+  height: 100%; /* 높이를 100%로 설정하여 전체 화면을 채움 */
+  width: 100%; /* 너비를 100%로 설정하여 전체 화면을 채움 */
+}
+
+.form-background {
+  background-color: black; /* 배경색을 검은색으로 설정 */
+  color: white; /* 글자색을 하얀색으로 설정 */
+  padding: 20px; /* 폼 내부에 패딩을 추가 */
+  border-radius: 5px; /* 폼 모서리를 둥글게 */
+}
+
+.form-background input,
+.form-background button {
+  color: black; /* 입력 필드와 버튼의 글자색을 검은색으로 설정 */
+  background-color: white; /* 입력 필드와 버튼의 배경색을 하얀색으로 설정 */
+  border: 1px solid #ccc; /* 경계선을 설정 */
+  margin-top: 10px; /* 상단 마진 추가 */
+}

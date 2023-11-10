@@ -15,13 +15,8 @@ public class MemberService {
 
     @Transactional
     public Long signup(LoginRequest loginRequest) {
-        final Member member = Member.forSave(loginRequest.nickname(), loginRequest.token());
+        final Member member = Member.forSave(loginRequest.nickname());
 
         return memberRepository.save(member).getId();
-    }
-
-    public void login(String token) {
-        memberRepository.findByGithubToken(token)
-            .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저입니다."));
     }
 }

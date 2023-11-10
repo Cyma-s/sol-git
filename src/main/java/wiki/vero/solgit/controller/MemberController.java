@@ -21,11 +21,4 @@ public class MemberController {
 
         return ResponseEntity.created(URI.create("/user/" + userId)).build();
     }
-
-    @PostMapping("/login")
-    public ResponseEntity<Void> login(@RequestBody LoginRequest loginRequest) {
-        memberService.login(loginRequest.token());
-
-        return ResponseEntity.ok().build();
-    }
 }

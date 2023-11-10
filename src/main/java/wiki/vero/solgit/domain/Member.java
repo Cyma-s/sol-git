@@ -19,9 +19,8 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nickname;
-    private String githubToken;
 
-    public static Member forSave(final String nickname, final String githubToken) {
-        return new Member(null, nickname, githubToken);
+    public static Member forSave(final String nickname) {
+        return new Member(null, nickname);
     }
 }
